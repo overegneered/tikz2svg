@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # note that a circuitikz environment is used because all tikz is valid circuitikz
 preclude="\documentclass[margin=1mm]{standalone}
