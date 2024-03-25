@@ -32,9 +32,9 @@ do
   file_content=$(cat "$file")
 
   touch "$temp_name.tex"
-  echo $preclude > "$temp_name.tex"
-  echo $file_content >> "$temp_name.tex"
-  echo $postclude >> "$temp_name.tex"
+  echo "$preclude" > "$temp_name.tex"
+  echo "$file_content" >> "$temp_name.tex"
+  echo "$postclude" >> "$temp_name.tex"
 
   echo "[$file] Building PDF..."
   pdflatex "$temp_name.tex" > /dev/null
