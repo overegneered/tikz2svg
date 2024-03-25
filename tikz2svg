@@ -9,7 +9,7 @@ preclude="\documentclass[margin=1mm]{standalone}
 \usepackage{pagecolor}
 \begin{document}
 \pagecolor{backgroundcolour}
-\begin{circuitikz}[european]
+\begin{circuitikz}[european, american inductors]
 "
 
 postclude="
