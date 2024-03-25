@@ -1,0 +1,49 @@
+#!/usr/bin/bash
+
+# note that a circuitikz environment is used because all tikz is valid circuitikz
+preclude="\documentclass[margin=1mm]{standalone}
+\usepackage{xcolor}
+\definecolor{backgroundcolour}{rgb}{240, 240, 240}
+\usepackage{circuitikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{pagecolor}
+\begin{document}
+\pagecolor{backgroundcolour}
+\begin{circuitikz}[european]
+"
+
+postclude="
+\end{circuitikz}
+\end{document}"
+
+temp_name="TEMPORARY_tikz2svg_intermediate"
+
+for file in $@
+do
+  echo "[$file] Processing..."
+
+  if [[ ! -f "$file" ]]; then
+    echo "[$file] ERROR: file '$file' not found."
+    echo "[$file] Processing aborted."
+    continue
+  fi
+
+  base_name=$(basename "$file" .tex)
+  file_content=$(cat "$file")
+
+  touch "$temp_name.tex"
+  echo $preclude > "$temp_name.tex"
+  echo $file_content >> "$temp_name.tex"
+  echo $postclude >> "$temp_name.tex"
+
+  echo "[$file] Building PDF..."
+  pdflatex "$temp_name.tex" > /dev/null
+
+  echo "[$file] Converting to SVG..."
+  pdf2svg "$temp_name.pdf" "$base_name.svg"
+
+  echo "[$file] Cleaning up..."
+  rm $temp_name.*
+
+  echo "[$file] Successfully processed to $base_name.svg"
+done
